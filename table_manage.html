@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Table Management</h2>
+    <p>Manage the status of all tables in the restaurant.</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Table Number</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+                <tr>
+                    <td>{{ table[1] }}</td>
+                    <td>{{ table[2] | capitalize }}</td>
+                    <td>
+                        <form action="{{ url_for('table_update', table_id=table[0]) }}" method="POST">
+                            <select name="status">
+                                <option value="free" {% if table[2] == 'free' %}selected{% endif %}>Free</option>
+                                <option value="occupied" {% if table[2] == 'occupied' %}selected{% endif %}>Occupied</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

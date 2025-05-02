@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Order #{{ order[0] }}</h2>
+    <p><strong>Table:</strong> {{ order[1] }}</p>
+    <p><strong>Status:</strong> {{ order[2] | capitalize }}</p>
+    <p><strong>Total:</strong> ${{ order[3] | round(2) }}</p>
+    <p><strong>Created At:</strong> {{ order[4] }}</p>
+    <h3>Items</h3>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Price ($)</th>
+            <th>Quantity</th>
+            <th>Subtotal ($)</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] | round(2) }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ (item[1] * item[2]) | round(2) }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <form method="POST" action="{{ url_for('order_update', order_id=order[0]) }}">
+        <label for="status">Update Status</label>
+        <select name="status">
+            <option value="pending" {% if order[2] == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="served" {% if order[2] == 'served' %}selected{% endif %}>Served</option>
+            <option value="completed" {% if order[2] == 'completed' %}selected{% endif %}>Completed</option>
+        </select>
+        <button type="submit"><i class="fas fa-sync-alt icon"></i>Update</button>
+    </form>
+{% endblock %}

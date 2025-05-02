@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Reports</h2>
+    <h3>Sales Report</h3>
+    <p>Total Sales: ${{ total_sales | round(2) }}</p>
+    <h3>Table Occupancy</h3>
+    <p>Occupied Tables: {{ occupied_tables }} / {{ total_tables }}</p>
+    <h3>Low Stock Inventory</h3>
+    {% if low_stock %}
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+            </tr>
+            {% for item in low_stock %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No low stock items.</p>
+    {% endif %}
+{% endblock %}

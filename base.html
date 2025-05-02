@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 60px;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(90deg, #1a1a1a, #d35400);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+        }
+        nav {
+            background-color: #2c2c2c;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.3em;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d35400;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        footer {
+            background: linear-gradient(90deg, #1a1a1a, #d35400);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+        }
+        footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+        .flash {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .flash.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        h2 {
+            color: #1a1a1a;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d35400;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 40px 0;
+            font-size: 1.1em;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c2c2c;
+            color: white;
+            font-size: 1.2em;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        button, .button {
+            background-color: #d35400;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px;
+            z-index: 10;
+        }
+        button:hover, .button:hover {
+            background-color: #b84500;
+        }
+        .delete {
+            background-color: #c0392b;
+        }
+        .delete:hover {
+            background-color: #a5291b;
+        }
+        form {
+            margin: 20px 0;
+            max-width: 600px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1.3em;
+            color: #1a1a1a;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .pagination {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .pagination a {
+            color: #d35400;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+        .pagination a:hover {
+            background-color: #d35400;
+            color: white;
+        }
+        .pagination .active {
+            background-color: #d35400;
+            color: white;
+        }
+        .icon {
+            margin-right: 8px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            nav a {
+                font-size: 1em;
+                margin: 0 10px;
+            }
+            .container {
+                margin: 20px 10px;
+                padding: 15px;
+            }
+            table, th, td {
+                font-size: 0.9em;
+            }
+            button, .button {
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Management System</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}"><i class="fas fa-home icon"></i>Home</a>
+        <a href="{{ url_for('order_create') }}"><i class="fas fa-plus icon"></i>New Order</a>
+        <a href="{{ url_for('table_manage') }}"><i class="fas fa-chair icon"></i>Tables</a>
+        <a href="{{ url_for('inventory') }}"><i class="fas fa-warehouse icon"></i>Inventory</a>
+        <a href="{{ url_for('reports') }}"><i class="fas fa-chart-bar icon"></i>Reports</a>
+        {% if session.role == 'admin' %}
+            <a href="{{ url_for('admin_panel') }}"><i class="fas fa-user-shield icon"></i>Admin Panel</a>
+            <a href="{{ url_for('menu_manage') }}"><i class="fas fa-utensils icon"></i>Menu</a>
+        {% endif %}
+        {% if session.user_id %}
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt icon"></i>Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt icon"></i>Login</a>
+            <a href="{{ url_for('signup') }}"><i class="fas fa-user-plus icon"></i>Signup</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        <p>© 2025 All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

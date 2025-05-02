@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Inventory Management</h2>
+    <form method="POST">
+        <label for="name">Item Name</label>
+        <input type="text" name="name" required>
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" step="0.1" min="0" required>
+        <label for="unit">Unit</label>
+        <input type="text" name="unit" required>
+        <label for="threshold">Low Stock Threshold</label>
+        <input type="number" name="threshold" step="0.1" min="0" required>
+        <button type="submit"><i class="fas fa-plus icon"></i>Add Item</button>
+    </form>
+    {% if items %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Low Stock Threshold</th>
+                <th>Actions</th>
+            </tr>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[4] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('inventory_update', item_id=item[0]) }}" style="display: inline;">
+                            <input type="number" name="quantity" step="0.1" min="0" value="{{ item[2] }}" style="width: 100px;">
+                            <button type="submit"><i class="fas fa-sync-alt icon"></i>Update</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No inventory items found.</p>
+    {% endif %}
+{% endblock %}

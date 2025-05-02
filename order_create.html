@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Create New Order</h2>
+    <form method="POST">
+        <label for="table_id">Table</label>
+        <select name="table_id" required>
+            <option value="">Select a table</option>
+            {% for table in tables %}
+                <option value="{{ table[0] }}">Table {{ table[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Menu Items</label>
+        {% for item in menu_items %}
+            <div>
+                <label>
+                    <input type="checkbox" name="item_id" value="{{ item[0] }}">
+                    {{ item[1] }} (${{ item[2] | round(2) }})
+                </label>
+                <input type="number" name="quantity" min="1" placeholder="Quantity" style="width: 100px;">
+            </div>
+        {% endfor %}
+        <button type="submit"><i class="fas fa-plus icon"></i>Create Order</button>
+    </form>
+{% endblock %}

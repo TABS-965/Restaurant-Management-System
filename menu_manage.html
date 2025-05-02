@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Menu Management</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST" enctype="multipart/form-data">
+        <label for="name">Item Name</label>
+        <input type="text" name="name" required>
+        <label for="price">	Label for price input
+        <input type="number" name="price" step="0.01" min="0" required>
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+        <label for="image">Image</label>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit"><i class="fas fa-plus icon"></i>Add Item</button>
+    </form>
+    {% if menu_items %}
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price ($)</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for item in menu_items %}
+                <tr>
+                    <td>
+                        {% if item[4] %}
+                            <img src="{{ url_for('static', filename=item[4]) }}" alt="{{ item[1] }}" style="width: 100px; height: auto;">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] | round(2) }}</td>
+                    <td>{{ item[3] or '' }}</td>
+                    <td>
+                        <a href="{{ url_for('menu_delete', item_id=item[0]) }}" class="button delete" onclick="return confirm('Are you sure?')"><i class="fas fa-trash icon"></i>Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No menu items found.</p>
+    {% endif %}
+{% endblock %}
